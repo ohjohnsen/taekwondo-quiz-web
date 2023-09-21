@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Link } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { terminologies } from '../assets/terminologies';
 
 
@@ -16,7 +16,7 @@ const getKoreanQuestionAndNorwegianChoices = () => {
   };
   while (choiceIndexes.length < choicesCount - 1) {
     const randomIndex = Math.floor(Math.random() * terminologies.length);
-    if (randomIndex != questionIndex && !choiceIndexes.some(choiceIndex => choiceIndex === randomIndex)) {
+    if (randomIndex !== questionIndex && !choiceIndexes.some(choiceIndex => choiceIndex === randomIndex)) {
       choiceIndexes.push(randomIndex);
     }
   }
