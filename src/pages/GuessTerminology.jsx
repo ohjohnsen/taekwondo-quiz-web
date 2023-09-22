@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { terminologies } from '../assets/terminologies';
-import { Box, Stack, Button, Show, IconButton } from "@chakra-ui/react";
+import { Box, Stack, Button, IconButton } from "@chakra-ui/react";
 import { MdRefresh } from 'react-icons/md';
 
 const getKoreanQuestionAndNorwegianChoices = () => {
@@ -53,7 +53,6 @@ let guessingData = getKoreanQuestionAndNorwegianChoices();
 
 const GuessTerminology = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
-  const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(undefined);
 
