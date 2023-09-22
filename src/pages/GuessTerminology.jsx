@@ -1,9 +1,10 @@
-import React from 'react';
-import { Box } from "@chakra-ui/react";
+import React, { useState } from 'react';
+import { Box, Stack } from "@chakra-ui/react";
 import { terminologies } from '../assets/terminologies';
 
 
 const getKoreanQuestionAndNorwegianChoices = () => {
+  console.log("Generating guesses");
   const questionIndex = Math.floor(Math.random() * terminologies.length);
   const choicesCount = 4;
   let choiceIndexes = [];
@@ -40,16 +41,24 @@ const getKoreanQuestionAndNorwegianChoices = () => {
 };
 
 const GuessTerminology = () => {
-  let guessingData = getKoreanQuestionAndNorwegianChoices();
+  const guessingData = getKoreanQuestionAndNorwegianChoices();
+  const [selectedChoice, setSelectedChoice] = useState("");
+
   return (
     <Box>
       Guess terminology
       <div>
-        { guessingData.question.index } { guessingData.question.terminology }
+        { guessingData.question.terminology }
       </div>
-      <div>
-        { guessingData.choices.map(choice => <div key={choice.index}>{choice.index} {choice.terminology}</div>) }
-      </div>
+      <Stack>
+        { guessingData.choices.map(choice =>
+          <button key={choice.index} onClick={event => {
+            setSelectedChoice(choice.index);
+            console.log(choice.index + " " + selectedChoice);
+          }}>
+            {choice.terminology}
+          </button>) }
+      </Stack>
     </Box>
   );
 };
