@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { terminologies } from '../assets/terminologies';
 import { Flex, Box, Stack, Button, Icon, IconButton, Grid } from "@chakra-ui/react";
 import { MdRefresh, MdCheckCircle } from 'react-icons/md';
+import NavBar from '../components/NavBar';
 
 const getKoreanQuestionAndNorwegianChoices = () => {
   console.log("Generating guesses");
@@ -51,7 +52,7 @@ const calculateCorrectAnswerPercentage = answers => {
 
 let guessingData = getKoreanQuestionAndNorwegianChoices();
 
-const GuessTerminology = () => {
+const TerminologyQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(undefined);
@@ -61,14 +62,14 @@ const GuessTerminology = () => {
       background='cyan.900'
       height='100vh'
       width='100vw'
-      padding='1rem'
       flexDirection='column'
       alignItems='center'
     >
+      <NavBar />
       <Box background='cyan.50' padding='1rem' width='50rem' borderRadius='0.5rem' dropShadow=''>
-        Guess terminology
+        Terminologi-quiz
         <Box>
-          Question { currentQuestion }:
+          Spørsmål { currentQuestion }:
           { guessingData.question.terminology }
         </Box>
         <Stack>
@@ -126,4 +127,4 @@ const GuessTerminology = () => {
   );
 };
 
-export default GuessTerminology;
+export default TerminologyQuiz;

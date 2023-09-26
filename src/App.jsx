@@ -6,14 +6,14 @@ import {
   Route
 } from "react-router-dom";
 import MainPage from './pages/MainPage';
-import GuessTerminology from './pages/GuessTerminology';
+import TerminologyQuiz from './pages/TerminologyQuiz';
 
 function App() {
   return (
     <ChakraProvider>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/guessterminology" element={<GuessTerminology />} />
+          <Route exact path="/terminologyquiz" element={<TerminologyQuiz />} />
           <Route path="/" element={<MainPage />} />
         </Routes>
       </BrowserRouter>
