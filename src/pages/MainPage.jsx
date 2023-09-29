@@ -1,13 +1,11 @@
 import React from 'react';
-import { Box } from "@chakra-ui/react";
-import NavBar from '../components/NavBar';
+import { Page } from '../components';
 
 const MainPage = () => {
   return (
-    <Box>
-      <NavBar />
+    <Page>
       Main page
-    </Box>
+    </Page>
   );
 };
 

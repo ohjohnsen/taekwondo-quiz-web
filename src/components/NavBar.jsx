@@ -36,7 +36,7 @@ const NavBar = () => {
             Terminologi
           </MenuButton>
           <MenuList marginTop="-0.5rem">
-            <MenuItem>
+            <MenuItem as={Link} to="/terminology">
               Teori
             </MenuItem>
             <MenuItem as={Link} to="/terminologyquiz">

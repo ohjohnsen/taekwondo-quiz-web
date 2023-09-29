@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { terminologies } from '../assets/terminologies';
-import { Flex, Box, Stack, Button, Icon, IconButton, Grid } from "@chakra-ui/react";
+import { Box, Stack, Button, Icon, IconButton, Grid } from "@chakra-ui/react";
 import { MdRefresh, MdCheckCircle } from 'react-icons/md';
-import NavBar from '../components/NavBar';
+import { Page } from "../components";
 
 const getKoreanQuestionAndNorwegianChoices = () => {
   console.log("Generating guesses");
@@ -52,20 +52,13 @@ const calculateCorrectAnswerPercentage = answers => {
 
 let guessingData = getKoreanQuestionAndNorwegianChoices();
 
-const TerminologyQuiz = () => {
+const TerminologyQuizPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(undefined);
 
   return (
-    <Flex
-      background='cyan.900'
-      height='100vh'
-      width='100vw'
-      flexDirection='column'
-      alignItems='center'
-    >
-      <NavBar />
+    <Page>
       <Box background='cyan.50' padding='1rem' width='50rem' borderRadius='0.5rem' dropShadow=''>
         Terminologi-quiz
         <Box>
@@ -123,8 +116,8 @@ const TerminologyQuiz = () => {
           />
         }
       </Box>
-    </Flex>
+    </Page>
   );
 };
 
-export default TerminologyQuiz;
+export default TerminologyQuizPage;

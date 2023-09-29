@@ -5,15 +5,17 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import MainPage from './pages/MainPage';
-import TerminologyQuiz from './pages/TerminologyQuiz';
+import MainPage from "./pages/MainPage";
+import TerminologyPage from "./pages/TerminologyPage";
+import TerminologyQuizPage from "./pages/TerminologyQuizPage";
 
 function App() {
   return (
     <ChakraProvider>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/terminologyquiz" element={<TerminologyQuiz />} />
+          <Route exact path="/terminology" element={<TerminologyPage />} />
+          <Route exact path="/terminologyquiz" element={<TerminologyQuizPage />} />
           <Route path="/" element={<MainPage />} />
         </Routes>
       </BrowserRouter>
