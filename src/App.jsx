@@ -1,13 +1,11 @@
-import * as React from 'react'
-import { ChakraProvider } from '@chakra-ui/react'
+import * as React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
 import {
   BrowserRouter,
   Routes,
   Route
 } from "react-router-dom";
-import MainPage from "./pages/MainPage";
-import TerminologyPage from "./pages/TerminologyPage";
-import TerminologyQuizPage from "./pages/TerminologyQuizPage";
+import { MainPage, TerminologyPage, TerminologyQuizPage} from "./pages";
 
 function App() {
   return (

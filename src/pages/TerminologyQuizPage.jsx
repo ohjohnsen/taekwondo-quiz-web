@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { terminologies } from '../assets/terminologies';
+import React, { useState } from "react";
+import { terminologies } from "../assets/terminologies";
 import { Box, Stack, Button, Icon, IconButton, Grid } from "@chakra-ui/react";
 import { MdRefresh, MdCheckCircle } from 'react-icons/md';
 import { Page } from "../components";
