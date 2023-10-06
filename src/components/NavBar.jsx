@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Button, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton, Img, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { MdHome } from "react-icons/md";
+import Logo from "../assets/logo.svg";
 
 const NavBar = () => {
   return (
@@ -15,6 +16,9 @@ const NavBar = () => {
         paddingRight="2rem"
         background="teal.300"
       >
+        <Box flexGrow="1">
+          <Img src={Logo} alt="Taekwon-Do Quiz logo" width="25rem" marginLeft="2rem" />
+        </Box>
         <Menu>
           <IconButton
             as={Link}
