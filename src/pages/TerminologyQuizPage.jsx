@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import { Box, Stack, Button, Icon, IconButton, Grid } from "@chakra-ui/react";
-import { MdRefresh, MdCheckCircle } from 'react-icons/md';
+import React, { useState, useEffect } from "react";
+import { Box, Stack, Button, Icon, IconButton, Grid, Center } from "@chakra-ui/react";
+import { MdCheckCircle } from "react-icons/md";
+import { VscDebugRestart, VscArrowRight } from "react-icons/vsc";
 import { Page } from "../components";
 import { terminologies } from "../assets/terminologies";
+import { differenceInMilliseconds, format } from "date-fns";
 
 const getKoreanQuestionAndNorwegianChoices = () => {
   console.log("Generating guesses");
@@ -57,6 +59,23 @@ const TerminologyQuizPage = () => {
   const [answers, setAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(undefined);
 
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [startTimestamp, setStartTimestamp] = useState(Date.now);
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  useEffect(() => {
+    let timer = null;
+    if(isTimerActive){
+      timer = setInterval(() => {
+        const newElapsedTime = differenceInMilliseconds(new Date(), startTimestamp);
+        setElapsedTime(newElapsedTime);
+      }, 10);
+    }
+    return () => {
+      clearInterval(timer);
+    };
+  });
+
   return (
     <Page>
       <Box
@@ -83,12 +102,15 @@ const TerminologyQuizPage = () => {
                 selectedAnswer === guessingData.question.index ? 'green' : 'red' }
               onClick={() => {
                 if (selectedAnswer === undefined) {
-                  console.log(choice.index);
                   setSelectedAnswer(choice.index);
                   setAnswers([
                     ...answers,
                     choice.index === guessingData.question.index
                   ]);
+                }
+                if (!isTimerActive) {
+                  setIsTimerActive(true);
+                  setStartTimestamp(new Date());
                 }
               }}
             >
@@ -111,19 +133,42 @@ const TerminologyQuizPage = () => {
             { calculateCorrectAnswerPercentage(answers) } %
           </Box>
         }
-        { selectedAnswer !== undefined &&
-          <IconButton
-            visibility={selectedAnswer === undefined}
-            icon={<MdRefresh />}
-            isRound={true}
-            onClick={() => {
-              guessingData = getKoreanQuestionAndNorwegianChoices();
-              const nextQuestion = currentQuestion + 1;
-              setCurrentQuestion(nextQuestion);
-              setSelectedAnswer(undefined);
-            }}
-          />
+        { (selectedAnswer !== undefined || currentQuestion > 1) &&
+          <Box width="100%" textAlign="center">
+            <IconButton
+              icon={<VscDebugRestart />}
+              isRound={true}
+              marginRight="1rem"
+              width="5rem"
+              height="5rem"
+              fontSize="3rem"
+              onClick={() => {
+                setCurrentQuestion(1);
+                setSelectedAnswer(undefined);
+                setAnswers([]);
+                setIsTimerActive(false);
+                setElapsedTime(0);
+                guessingData = getKoreanQuestionAndNorwegianChoices();
+              }}
+            />
+            <IconButton
+              visibility={selectedAnswer === undefined}
+              icon={<VscArrowRight />}
+              isRound={true}
+              width="5rem"
+              height="5rem"
+              fontSize="4rem"
+              isDisabled={selectedAnswer === undefined ? true : false}
+              onClick={() => {
+                guessingData = getKoreanQuestionAndNorwegianChoices();
+                const nextQuestion = currentQuestion + 1;
+                setCurrentQuestion(nextQuestion);
+                setSelectedAnswer(undefined);
+              }}
+            />
+          </Box>
         }
+        Seconds: { format(elapsedTime, "mm:ss,SS") }
       </Box>
     </Page>
   );
