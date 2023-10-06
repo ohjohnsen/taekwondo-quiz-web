@@ -5,7 +5,7 @@ import { MdHome } from "react-icons/md";
 
 const NavBar = () => {
   return (
-    <Box as="nav" height="5rem" width="100%" top="0" position="sticky">
+    <Box as="nav" height="4rem" minHeight="4rem" width="100%" top="0" position="fixed">
       <Flex
         flexDirection="row"
         height="100%"

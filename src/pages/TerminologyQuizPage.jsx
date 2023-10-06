@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { terminologies } from "../assets/terminologies";
 import { Box, Stack, Button, Icon, IconButton, Grid } from "@chakra-ui/react";
 import { MdRefresh, MdCheckCircle } from 'react-icons/md';
 import { Page } from "../components";
+import { terminologies } from "../assets/terminologies";
 
 const getKoreanQuestionAndNorwegianChoices = () => {
   console.log("Generating guesses");
@@ -59,7 +59,16 @@ const TerminologyQuizPage = () => {
 
   return (
     <Page>
-      <Box background='cyan.50' padding='1rem' width='50rem' borderRadius='0.5rem' dropShadow=''>
+      <Box
+        marginTop="2rem"
+        marginBottom="2rem"
+        background="cyan.50"
+        padding="1rem"
+        width="50rem"
+        height="100%"
+        borderRadius="0.5rem"
+        overflowY="auto"
+      >
         Terminologi-quiz
         <Box>
           Spørsmål { currentQuestion }:
