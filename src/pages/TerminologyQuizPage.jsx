@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Stack, Button, Icon, IconButton, Grid, Center } from "@chakra-ui/react";
+import { Box, Stack, Button, Icon, IconButton, Grid } from "@chakra-ui/react";
 import { MdCheckCircle } from "react-icons/md";
 import { VscDebugRestart, VscArrowRight } from "react-icons/vsc";
 import { Page } from "../components";
