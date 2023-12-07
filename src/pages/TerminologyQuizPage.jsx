@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Stack, Button, Icon, IconButton, Grid } from "@chakra-ui/react";
+import { Box, Stack, Button, Icon, IconButton, Grid, SimpleGrid, Heading } from "@chakra-ui/react";
 import { MdCheckCircle } from "react-icons/md";
 import { VscDebugRestart, VscArrowRight } from "react-icons/vsc";
 import { Page } from "../components";
@@ -25,8 +25,8 @@ const getKoreanQuestionAndNorwegianChoices = () => {
     }
   }
 
+  // Insert the correct answer at a random position in the choise array
   const indexToInsertCorrectAnswerAt = Math.floor(Math.random() * choicesCount);
-
   choiceIndexes = [
     ...choiceIndexes.slice(0, indexToInsertCorrectAnswerAt),
     questionIndex,
@@ -46,8 +46,11 @@ const getKoreanQuestionAndNorwegianChoices = () => {
   return data;
 };
 
+const getCorrectAnswerCount = answers => answers.reduce((n, answer) => n + (answer === true));
+
 const calculateCorrectAnswerPercentage = answers => {
-  const correctAnswerCount = answers.reduce((n, answer) => n + (answer === true));
+  // const correctAnswerCount = answers.reduce((n, answer) => n + (answer === true));
+  const correctAnswerCount = getCorrectAnswerCount(answers);
   const percentage = Math.round(correctAnswerCount * 100 / answers.length);
   return percentage;
 };
@@ -62,6 +65,8 @@ const TerminologyQuizPage = () => {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [startTimestamp, setStartTimestamp] = useState(Date.now);
   const [elapsedTime, setElapsedTime] = useState(0);
+
+  const QuestionCount = 3;
 
   useEffect(() => {
     let timer = null;
@@ -88,12 +93,12 @@ const TerminologyQuizPage = () => {
         borderRadius="0.5rem"
         overflowY="auto"
       >
-        Terminologi-quiz
-        <Box>
+        <Heading size="lg">Terminologi-quiz</Heading>
+        <Box fontSize="lg" marginTop="1rem" marginBottom="1rem">
           Spørsmål { currentQuestion }:
-          { guessingData.question.terminology }
+          Hva betyr "{ guessingData.question.terminology }" på norsk?
         </Box>
-        <Stack>
+        <SimpleGrid columns={2} spacing="1rem">
           { guessingData.choices.map(choice =>
             <Button
               key={choice.index}
@@ -107,11 +112,15 @@ const TerminologyQuizPage = () => {
                     ...answers,
                     choice.index === guessingData.question.index
                   ]);
+                  if (!isTimerActive) {
+                    setIsTimerActive(true);
+                    setStartTimestamp(new Date());
+                  } else if (currentQuestion === QuestionCount) {
+                    console.log("promp igjen");
+                    setIsTimerActive(false);
+                  }
                 }
-                if (!isTimerActive) {
-                  setIsTimerActive(true);
-                  setStartTimestamp(new Date());
-                }
+
               }}
             >
               <Grid height='100%' width='100%' alignItems='center'>
@@ -127,14 +136,26 @@ const TerminologyQuizPage = () => {
                 }
               </Grid>
             </Button>) }
-        </Stack>
-        { (selectedAnswer !== undefined || currentQuestion > 1) &&
+        </SimpleGrid>
+        
+        <SimpleGrid columns={2} width="100%" spacingX="1rem" fontSize="xl" marginTop="2rem">
+          <Box textAlign="right">Tid:</Box>
+          <Box>{format(elapsedTime, "m:ss,SS")}</Box>
+
+          <Box textAlign="right">Antall rette:</Box>
           <Box>
-            { calculateCorrectAnswerPercentage(answers) } %
+            {currentQuestion}/{QuestionCount}
+            (
+              {(selectedAnswer !== undefined || currentQuestion > 1) ? 
+                calculateCorrectAnswerPercentage(answers) :
+                "0"}
+            %)
           </Box>
-        }
+        </SimpleGrid>
+
         { (selectedAnswer !== undefined || currentQuestion > 1) &&
           <Box width="100%" textAlign="center">
+            {/* Restart quiz button */}
             <IconButton
               icon={<VscDebugRestart />}
               isRound={true}
@@ -149,8 +170,11 @@ const TerminologyQuizPage = () => {
                 setIsTimerActive(false);
                 setElapsedTime(0);
                 guessingData = getKoreanQuestionAndNorwegianChoices();
+                console.log("Restart quis onclick");
               }}
             />
+
+            {/* Next question button */}
             <IconButton
               visibility={selectedAnswer === undefined}
               icon={<VscArrowRight />}
@@ -158,18 +182,18 @@ const TerminologyQuizPage = () => {
               width="5rem"
               height="5rem"
               fontSize="4rem"
-              isDisabled={selectedAnswer === undefined ? true : false}
+              isDisabled={selectedAnswer === undefined || currentQuestion === QuestionCount ? true : false}
               onClick={() => {
                 guessingData = getKoreanQuestionAndNorwegianChoices();
                 const nextQuestion = currentQuestion + 1;
                 setCurrentQuestion(nextQuestion);
                 setSelectedAnswer(undefined);
+                console.log("Next question onclick");
               }}
             />
           </Box>
         }
-        Seconds: { format(elapsedTime, "mm:ss,SS") }
-      </Box>
+      </Box>    
     </Page>
   );
 };
