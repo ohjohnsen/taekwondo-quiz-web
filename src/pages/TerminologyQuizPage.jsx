@@ -1,25 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading } from "@chakra-ui/react";
+import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading, Text } from "@chakra-ui/react";
 import { MdCheckCircle } from "react-icons/md";
 import { VscDebugRestart, VscArrowRight } from "react-icons/vsc";
-import { Page } from "../components";
+import { Page, BeltMultiSelect } from "../components";
 import { terminologies } from "../assets/terminologies";
 import { differenceInMilliseconds, format } from "date-fns";
 
-const getKoreanQuestionAndNorwegianChoices = () => {
+const getKoreanQuestionAndNorwegianChoices = selectedBelts => {
   console.log("Generating guesses");
-  const questionIndex = Math.floor(Math.random() * terminologies.length);
-  const choicesCount = 4;
-  let choiceIndexes = [];
+
+  let terminologiesTemp = [];
+  if (selectedBelts.length > 0) {
+    selectedBelts.forEach(belt => {
+      terminologiesTemp = [...terminologiesTemp, ...terminologies.filter(terminology => terminology.belt === belt.value)];
+    })
+  } else {
+    terminologiesTemp = terminologies;
+  }
+
+  const questionIndex = Math.floor(Math.random() * terminologiesTemp.length);
   const data = {
     question: {
-      terminology: terminologies[questionIndex].korean,
+      terminology: terminologiesTemp[questionIndex].korean,
       index: questionIndex
     },
     choices: []
   };
+
+  const choicesCount = 4;
+  let choiceIndexes = [];
   while (choiceIndexes.length < choicesCount - 1) {
-    const randomIndex = Math.floor(Math.random() * terminologies.length);
+    const randomIndex = Math.floor(Math.random() * terminologiesTemp.length);
     if (randomIndex !== questionIndex && !choiceIndexes.some(choiceIndex => choiceIndex === randomIndex)) {
       choiceIndexes = [ ...choiceIndexes, randomIndex ];
     }
@@ -37,7 +48,7 @@ const getKoreanQuestionAndNorwegianChoices = () => {
     data.choices = [
       ...data.choices,
       {
-        terminology: terminologies[choiceIndex].norwegian,
+        terminology: terminologiesTemp[choiceIndex].norwegian,
         index: choiceIndex
       }
     ];
@@ -61,9 +72,9 @@ const calculateCorrectAnswerPercentage = answers => {
   return percentage;
 };
 
-let guessingData = getKoreanQuestionAndNorwegianChoices();
-
 const TerminologyQuizPage = () => {
+  const [selectedBelts, setSelectedBelts] = useState([]);
+  const [guessingData, setGuessingData] = useState(getKoreanQuestionAndNorwegianChoices(selectedBelts));
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(undefined);
@@ -72,7 +83,7 @@ const TerminologyQuizPage = () => {
   const [startTimestamp, setStartTimestamp] = useState(Date.now);
   const [elapsedTime, setElapsedTime] = useState(0);
 
-  const QuestionCount = 3;
+  const QuestionCount = 20;
 
   useEffect(() => {
     let timer = null;
@@ -80,7 +91,7 @@ const TerminologyQuizPage = () => {
       timer = setInterval(() => {
         const newElapsedTime = differenceInMilliseconds(new Date(), startTimestamp);
         setElapsedTime(newElapsedTime);
-      }, 100);
+      }, 30);
     }
     return () => {
       clearInterval(timer);
@@ -92,7 +103,7 @@ const TerminologyQuizPage = () => {
       <Box
         marginTop="2rem"
         marginBottom="2rem"
-        background="cyan.50"
+        background="gray.200"
         padding="1rem"
         width="50rem"
         height="100%"
@@ -100,6 +111,16 @@ const TerminologyQuizPage = () => {
         overflowY="auto"
       >
         <Heading size="lg">Terminologi-quiz</Heading>
+          <Text>Velg belte:</Text>
+          <BeltMultiSelect onChange={selected => {
+            setSelectedBelts(selected);
+            setCurrentQuestion(1);
+            setSelectedAnswer(undefined);
+            setAnswers([]);
+            setIsTimerActive(false);
+            setElapsedTime(0);
+            setGuessingData(getKoreanQuestionAndNorwegianChoices(selected));
+          }} />
         <Box fontSize="lg" marginTop="1rem" marginBottom="1rem">
           Spørsmål { currentQuestion }:
           Hva betyr "{ guessingData.question.terminology }" på norsk?
@@ -175,7 +196,7 @@ const TerminologyQuizPage = () => {
                 setAnswers([]);
                 setIsTimerActive(false);
                 setElapsedTime(0);
-                guessingData = getKoreanQuestionAndNorwegianChoices();
+                setGuessingData(getKoreanQuestionAndNorwegianChoices(selectedBelts));
                 console.log("Restart quis onclick");
               }}
             />
@@ -190,7 +211,7 @@ const TerminologyQuizPage = () => {
               fontSize="4rem"
               isDisabled={selectedAnswer === undefined || currentQuestion === QuestionCount ? true : false}
               onClick={() => {
-                guessingData = getKoreanQuestionAndNorwegianChoices();
+                setGuessingData(getKoreanQuestionAndNorwegianChoices(selectedBelts));
                 const nextQuestion = currentQuestion + 1;
                 setCurrentQuestion(nextQuestion);
                 setSelectedAnswer(undefined);

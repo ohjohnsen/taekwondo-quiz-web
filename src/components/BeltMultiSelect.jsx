@@ -17,7 +17,7 @@ const BeltMultiSelect = props => {
 
   return (
     <Select
-      colorScheme="purple"
+      colorScheme="blackAlpha"
       isMulti
       closeMenuOnSelect={false}
       options={SelectOptions}

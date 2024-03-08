@@ -47,7 +47,7 @@ const TerminologyPage = () => {
       <Box
         marginTop="2rem"
         marginBottom="2rem"
-        background="cyan.50"
+        background="gray.200"
         padding="1rem"
         width="50rem"
         height="100%"
