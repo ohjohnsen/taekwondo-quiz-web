@@ -17,6 +17,10 @@ const TerminologyPage = () => {
   const columns = React.useMemo(
     () => [
       {
+        Header: "Grad",
+        accessor: "belt",
+      },
+      {
         Header: "Koreansk",
         accessor: "korean",
       },
