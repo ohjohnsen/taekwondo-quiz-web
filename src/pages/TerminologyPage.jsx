@@ -55,8 +55,17 @@ const TerminologyPage = () => {
         overflowY="auto"
       >
         <BeltMultiSelect
-          rows={rows}
-          setSelectedRows={setSelectedRows} />
+          onChange={selected => {
+            var rowsTemp = [];
+            if (selected.length > 0) {
+              selected.forEach(belt => {
+                rowsTemp = [...rowsTemp, ...rows.filter(row => row.values.belt === belt.value)];
+              })
+            } else {
+              rowsTemp = rows;
+            }
+            setSelectedRows(rowsTemp);
+          }} />
         <Table {...getTableProps()}>
           <Thead>
             {headerGroups.map((headerGroup) => (
