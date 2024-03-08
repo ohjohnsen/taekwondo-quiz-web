@@ -6,7 +6,14 @@ import Logo from "../assets/logo.svg";
 
 const NavBar = () => {
   return (
-    <Box as="nav" height="4rem" minHeight="4rem" width="100%" top="0" position="fixed">
+    <Box
+      as="nav"
+      height="4rem"
+      minHeight="4rem"
+      width="100%"
+      top="0"
+      position="fixed"
+      zIndex="1000">
       <Flex
         flexDirection="row"
         height="100%"
@@ -48,7 +55,7 @@ const NavBar = () => {
             </MenuItem>
           </MenuList>
         </Menu>
-        <Menu>
+        {/* <Menu>
           <MenuButton
             as={Button}
             px={4}
@@ -104,7 +111,7 @@ const NavBar = () => {
               Quiz
             </MenuItem>
           </MenuList>
-        </Menu>
+        </Menu> */}
       </Flex>
     </Box>
   );
