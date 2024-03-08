@@ -46,7 +46,13 @@ const getKoreanQuestionAndNorwegianChoices = () => {
   return data;
 };
 
-const getCorrectAnswerCount = answers => answers.reduce((n, answer) => n + (answer === true));
+const getCorrectAnswerCount = answers =>
+{
+  if (answers.length > 0)
+    return answers.filter(answer => answer === true).length;
+  else
+    return 0;
+}
 
 const calculateCorrectAnswerPercentage = answers => {
   // const correctAnswerCount = answers.reduce((n, answer) => n + (answer === true));
@@ -74,7 +80,7 @@ const TerminologyQuizPage = () => {
       timer = setInterval(() => {
         const newElapsedTime = differenceInMilliseconds(new Date(), startTimestamp);
         setElapsedTime(newElapsedTime);
-      }, 10);
+      }, 100);
     }
     return () => {
       clearInterval(timer);
@@ -116,7 +122,6 @@ const TerminologyQuizPage = () => {
                     setIsTimerActive(true);
                     setStartTimestamp(new Date());
                   } else if (currentQuestion === QuestionCount) {
-                    console.log("promp igjen");
                     setIsTimerActive(false);
                   }
                 }
@@ -137,16 +142,17 @@ const TerminologyQuizPage = () => {
               </Grid>
             </Button>) }
         </SimpleGrid>
-        
+
         <SimpleGrid columns={2} width="100%" spacingX="1rem" fontSize="xl" marginTop="2rem">
           <Box textAlign="right">Tid:</Box>
-          <Box>{format(elapsedTime, "m:ss,SS")}</Box>
+          <Box>{format(elapsedTime, "m:ss,S")}</Box>
 
           <Box textAlign="right">Antall rette:</Box>
           <Box>
-            {currentQuestion}/{QuestionCount}
+            {getCorrectAnswerCount(answers)}/{answers.length}
+            {' '}
             (
-              {(selectedAnswer !== undefined || currentQuestion > 1) ? 
+              {(selectedAnswer !== undefined || currentQuestion > 1) ?
                 calculateCorrectAnswerPercentage(answers) :
                 "0"}
             %)
@@ -193,7 +199,7 @@ const TerminologyQuizPage = () => {
             />
           </Box>
         }
-      </Box>    
+      </Box>
     </Page>
   );
 };
