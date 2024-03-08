@@ -1,5 +1,5 @@
-import React from "react";
-import { Page } from "../components";
+import React, { useState } from "react";
+import { Page, BeltMultiSelect } from "../components";
 import { Box } from "@chakra-ui/react";
 import { terminologies } from "../assets/terminologies";
 
@@ -40,6 +40,8 @@ const TerminologyPage = () => {
     prepareRow,
   } = useTable({ columns, data }, useSortBy)
 
+  const [selectedRows, setSelectedRows] = useState(rows);
+
   return (
     <Page>
       <Box
@@ -52,6 +54,9 @@ const TerminologyPage = () => {
         borderRadius="0.5rem"
         overflowY="auto"
       >
+        <BeltMultiSelect
+          rows={rows}
+          setSelectedRows={setSelectedRows} />
         <Table {...getTableProps()}>
           <Thead>
             {headerGroups.map((headerGroup) => (
@@ -77,7 +82,7 @@ const TerminologyPage = () => {
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map(row => {
+            {selectedRows.map(row => {
               prepareRow(row)
               return (
                 <Tr {...row.getRowProps()}>
