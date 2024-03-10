@@ -1,46 +1,11 @@
 import React, { useState } from "react";
-import { Page, BeltMultiSelect } from "../components";
-import { Box } from "@chakra-ui/react";
+import { Page, BeltMultiSelect, TerminologyTable } from "../components";
+import { BeltSelectOptions } from "../components/Constants";
+import { Box, Heading } from "@chakra-ui/react";
 import { terminologies } from "../assets/terminologies";
 
-
-import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react"
-import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons"
-import { useTable, useSortBy } from "react-table"
-
 const TerminologyPage = () => {
-  const data = React.useMemo(
-    () => terminologies,
-    [],
-  )
-
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "Grad",
-        accessor: "belt",
-      },
-      {
-        Header: "Koreansk",
-        accessor: "korean",
-      },
-      {
-        Header: "Norsk",
-        accessor: "norwegian",
-      },
-    ],
-    [],
-  )
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data }, useSortBy)
-
-  const [selectedRows, setSelectedRows] = useState(rows);
+  const [selectedBelts, setSelectedBelts] = useState([]);
 
   return (
     <Page>
@@ -49,62 +14,30 @@ const TerminologyPage = () => {
         marginBottom="2rem"
         background="gray.200"
         padding="1rem"
-        width="50rem"
+        width={['auto', '30rem', '46rem']}
         height="100%"
         borderRadius="0.5rem"
-        overflowY="auto"
-      >
+        overflowY="auto">
         <BeltMultiSelect
-          onChange={selected => {
-            var rowsTemp = [];
-            if (selected.length > 0) {
-              selected.forEach(belt => {
-                rowsTemp = [...rowsTemp, ...rows.filter(row => row.values.belt === belt.value)];
-              })
-            } else {
-              rowsTemp = rows;
-            }
-            setSelectedRows(rowsTemp);
-          }} />
-        <Table {...getTableProps()}>
-          <Thead>
-            {headerGroups.map((headerGroup) => (
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    isNumeric={column.isNumeric}
-                  >
-                    {column.render("Header")}
-                    <chakra.span pl="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <TriangleDownIcon aria-label="sorted descending" />
-                        ) : (
-                          <TriangleUpIcon aria-label="sorted ascending" />
-                        )
-                      ) : null}
-                    </chakra.span>
-                  </Th>
-                ))}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {selectedRows.map(row => {
-              prepareRow(row)
+          onChange={selected => { setSelectedBelts(selected); }} />
+
+        {
+          BeltSelectOptions.map(belt => {
+            // Check if any specific belt(s) have been selected, or else show terminologies for all belts
+            if (selectedBelts.some(selectedBelt => selectedBelt.value === belt.value) || selectedBelts.length === 0) {
               return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
-                      {cell.render("Cell")}
-                    </Td>
-                  ))}
-                </Tr>
-              )
-            })}
-          </Tbody>
-        </Table>
+                <div key={belt.value}>
+                  <Heading size="md" marginTop="2rem">{belt.label}</Heading>
+                  <TerminologyTable terminologies={
+                    terminologies.filter(terminology => terminology.belt === belt.value)
+                  } />
+                </div>
+              );
+            }
+            else return false;
+          })
+        }
+
       </Box>
     </Page>
 

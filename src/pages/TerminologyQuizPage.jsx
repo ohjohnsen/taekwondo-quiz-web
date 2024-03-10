@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading } from "@chakra-ui/react";
 import { MdCheckCircle } from "react-icons/md";
 import { VscDebugRestart, VscArrowRight } from "react-icons/vsc";
 import { Page, BeltMultiSelect } from "../components";
@@ -7,8 +7,6 @@ import { terminologies } from "../assets/terminologies";
 import { differenceInMilliseconds, format } from "date-fns";
 
 const getKoreanQuestionAndNorwegianChoices = selectedBelts => {
-  console.log("Generating guesses");
-
   let terminologiesTemp = [];
   if (selectedBelts.length > 0) {
     selectedBelts.forEach(belt => {
@@ -65,8 +63,7 @@ const getCorrectAnswerCount = answers =>
     return 0;
 }
 
-const calculateCorrectAnswerPercentage = answers => {
-  // const correctAnswerCount = answers.reduce((n, answer) => n + (answer === true));
+const getCorrectAnswerPercentage = answers => {
   const correctAnswerCount = getCorrectAnswerCount(answers);
   const percentage = Math.round(correctAnswerCount * 100 / answers.length);
   return percentage;
@@ -105,24 +102,23 @@ const TerminologyQuizPage = () => {
         marginBottom="2rem"
         background="gray.200"
         padding="1rem"
-        width="50rem"
+        width={['auto', '30rem', '46rem']}
         height="100%"
         borderRadius="0.5rem"
         overflowY="auto"
       >
-        <Heading size="lg">Terminologi-quiz</Heading>
-          <Text>Velg belte:</Text>
-          <BeltMultiSelect onChange={selected => {
-            setSelectedBelts(selected);
-            setCurrentQuestion(1);
-            setSelectedAnswer(undefined);
-            setAnswers([]);
-            setIsTimerActive(false);
-            setElapsedTime(0);
-            setGuessingData(getKoreanQuestionAndNorwegianChoices(selected));
-          }} />
+        <Heading size="lg" marginBottom="1rem">Terminologi-quiz</Heading>
+        <BeltMultiSelect onChange={selected => {
+          setSelectedBelts(selected);
+          setCurrentQuestion(1);
+          setSelectedAnswer(undefined);
+          setAnswers([]);
+          setIsTimerActive(false);
+          setElapsedTime(0);
+          setGuessingData(getKoreanQuestionAndNorwegianChoices(selected));
+        }} />
         <Box fontSize="lg" marginTop="1rem" marginBottom="1rem">
-          Spørsmål { currentQuestion }:
+          Spørsmål {currentQuestion}/{QuestionCount}:
           Hva betyr "{ guessingData.question.terminology }" på norsk?
         </Box>
         <SimpleGrid columns={2} spacing="1rem">
@@ -174,7 +170,7 @@ const TerminologyQuizPage = () => {
             {' '}
             (
               {(selectedAnswer !== undefined || currentQuestion > 1) ?
-                calculateCorrectAnswerPercentage(answers) :
+                getCorrectAnswerPercentage(answers) :
                 "0"}
             %)
           </Box>
@@ -197,7 +193,6 @@ const TerminologyQuizPage = () => {
                 setIsTimerActive(false);
                 setElapsedTime(0);
                 setGuessingData(getKoreanQuestionAndNorwegianChoices(selectedBelts));
-                console.log("Restart quis onclick");
               }}
             />
 
@@ -215,7 +210,6 @@ const TerminologyQuizPage = () => {
                 const nextQuestion = currentQuestion + 1;
                 setCurrentQuestion(nextQuestion);
                 setSelectedAnswer(undefined);
-                console.log("Next question onclick");
               }}
             />
           </Box>

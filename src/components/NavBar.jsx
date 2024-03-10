@@ -20,19 +20,20 @@ const NavBar = () => {
         width='100%'
         alignItems='center'
         justifyContent='right'
-        paddingRight='2rem'
+        padding='0 2rem'
         background='blue.400'
       >
-        <Box flexGrow='1'>
-          <Img src={Logo} alt='Taekwon-Do Quiz logo' width='25rem' marginLeft='2rem' />
-        </Box>
+        <Link to='/' background="red">
+          <Img src={Logo} alt='Taekwon-Do Quiz logo' width='25rem' />
+        </Link>
+        <Box flexGrow='1' />
         <Menu>
           <IconButton
             as={Link}
             to='/'
             icon={<MdHome />}
             background='transparent'
-            size='lg'
+            fontSize='1.5rem'
             _hover={{ background: '#ffffff60' }}
           />
         </Menu>
