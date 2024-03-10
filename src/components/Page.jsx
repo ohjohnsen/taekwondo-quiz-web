@@ -7,7 +7,7 @@ const Page = props => {
     <Flex
       background="gray.300"
       height="100%"
-      minHeight="100vh"
+      minHeight="100dvh"
       width="100vw"
       flexDirection="column"
       alignItems="center"

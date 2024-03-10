@@ -10,7 +10,7 @@ const MainPage = () => {
         maxWidth='50rem'
         direction='column'
         gap='1rem'
-        margin='2rem 0'>
+        padding='2rem 1rem'>
         <Heading size="lg">Kiai!</Heading>
         <Text size="lg">
           Denne nettsiden er laget for å hjelpe med å pugge teori til gradering i NTN (National Taekwon-Do Norway) sine klubber.
