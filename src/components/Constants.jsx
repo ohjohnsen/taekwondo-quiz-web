@@ -7,8 +7,12 @@ export const BeltSelectOptions = [
     label: "9. Gup",
     value: "9-gup",
   },
-  // {
-  //   label: "8. Gup",
-  //   value: "8-gup",
-  // },
+  {
+    label: "8. Gup",
+    value: "8-gup",
+  },
+  {
+    label: "7. Gup",
+    value: "7-gup",
+  },
 ];

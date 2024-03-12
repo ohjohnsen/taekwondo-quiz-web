@@ -269,4 +269,54 @@ export const terminologies = [
     korean: "Sambo matsogi",
     belt: "9-gup"
   },
+  {
+    norwegian: "Slag",
+    korean: "Taerigi",
+    belt: "8-gup"
+  },
+  {
+    norwegian: "Svingspark",
+    korean: "Dollyo chagi",
+    belt: "8-gup"
+  },
+  {
+    norwegian: "Oppadgående",
+    korean: "Chookyo",
+    belt: "8-gup"
+  },
+  {
+    norwegian: "Tvilling",
+    korean: "Sang",
+    belt: "8-gup"
+  },
+  {
+    norwegian: "Frisparring",
+    korean: "Jayoo matsogi",
+    belt: "8-gup"
+  },
+  {
+    norwegian: "Spredningsblokk",
+    korean: "Hechyo makgi",
+    belt: "7-gup"
+  },
+  {
+    norwegian: "Baksiden av knytteneven",
+    korean: "Dung joomuk",
+    belt: "7-gup"
+  },
+  {
+    norwegian: "Fingertupp (spydhånd)",
+    korean: "Sonkut",
+    belt: "7-gup"
+  },
+  {
+    norwegian: "Støt",
+    korean: "Tulgi",
+    belt: "7-gup"
+  },
+  {
+    norwegian: "Strak",
+    korean: "Sun",
+    belt: "7-gup"
+  },
 ];
