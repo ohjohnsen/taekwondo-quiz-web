@@ -2,7 +2,8 @@ import React from 'react';
 import { Box, Button, Flex, IconButton, Img, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { MdHome } from 'react-icons/md';
-import Logo from '../assets/logo.svg';
+import Logo from '../assets/logo.png';
+import Banner from '../assets/banner.svg';
 
 const NavBar = () => {
   return (
@@ -20,11 +21,14 @@ const NavBar = () => {
         width='100%'
         alignItems='center'
         justifyContent='right'
-        padding='0 2rem'
+        padding='0 1rem'
         background='blue.400'
       >
         <Link to='/' background="red">
-          <Img src={Logo} alt='Taekwon-Do Quiz logo' width='25rem' />
+          <Flex direction='row'>
+            <Img src={Logo} height='3rem' marginRight='1rem' />
+            <Img src={Banner} alt='Taekwon-Do Quiz logo' width='25rem' />
+          </Flex>
         </Link>
         <Box flexGrow='1' />
         <Menu>
