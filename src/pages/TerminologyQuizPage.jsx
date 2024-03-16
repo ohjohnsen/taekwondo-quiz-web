@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading } from "@chakra-ui/react";
+import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading, Flex, Text } from "@chakra-ui/react";
 import { MdCheckCircle } from "react-icons/md";
 import { VscDebugRestart, VscArrowRight } from "react-icons/vsc";
-import { Page, BeltMultiSelect } from "../components";
+import { Page, BeltMultiSelect, LanguageSelect } from "../components";
 import { terminologies } from "../assets/terminologies";
 import { differenceInMilliseconds, format } from "date-fns";
+import { LanguageSelectOptions } from "../components/Constants";
 
-const getKoreanQuestionAndNorwegianChoices = selectedBelts => {
+const QuestionCount = 20;
+const AnswerCount = 4;
+
+const getQuestionAndAnswers = selectedBelts => {
   let terminologiesTemp = [];
   if (selectedBelts.length > 0) {
     selectedBelts.forEach(belt => {
@@ -19,35 +23,34 @@ const getKoreanQuestionAndNorwegianChoices = selectedBelts => {
   const questionIndex = Math.floor(Math.random() * terminologiesTemp.length);
   const data = {
     question: {
-      terminology: terminologiesTemp[questionIndex].korean,
+      terminology: terminologiesTemp[questionIndex],
       index: questionIndex
     },
-    choices: []
+    answers: []
   };
 
-  const choicesCount = 4;
-  let choiceIndexes = [];
-  while (choiceIndexes.length < choicesCount - 1) {
+  let answerIndexes = [];
+  while (answerIndexes.length < AnswerCount - 1) {
     const randomIndex = Math.floor(Math.random() * terminologiesTemp.length);
-    if (randomIndex !== questionIndex && !choiceIndexes.some(choiceIndex => choiceIndex === randomIndex)) {
-      choiceIndexes = [ ...choiceIndexes, randomIndex ];
+    if (randomIndex !== questionIndex && !answerIndexes.some(answerIndex => answerIndex === randomIndex)) {
+      answerIndexes = [ ...answerIndexes, randomIndex ];
     }
   }
 
-  // Insert the correct answer at a random position in the choise array
-  const indexToInsertCorrectAnswerAt = Math.floor(Math.random() * choicesCount);
-  choiceIndexes = [
-    ...choiceIndexes.slice(0, indexToInsertCorrectAnswerAt),
+  // Insert the correct answer at a random position in the answer array
+  const indexToInsertCorrectAnswerAt = Math.floor(Math.random() * AnswerCount);
+  answerIndexes = [
+    ...answerIndexes.slice(0, indexToInsertCorrectAnswerAt),
     questionIndex,
-    ...choiceIndexes.slice(indexToInsertCorrectAnswerAt)
+    ...answerIndexes.slice(indexToInsertCorrectAnswerAt)
   ];
 
-  choiceIndexes.forEach(choiceIndex => {
-    data.choices = [
-      ...data.choices,
+  answerIndexes.forEach(answerIndex => {
+    data.answers = [
+      ...data.answers,
       {
-        terminology: terminologiesTemp[choiceIndex].norwegian,
-        index: choiceIndex
+        terminology: terminologiesTemp[answerIndex],
+        index: answerIndex
       }
     ];
   });
@@ -71,7 +74,8 @@ const getCorrectAnswerPercentage = answers => {
 
 const TerminologyQuizPage = () => {
   const [selectedBelts, setSelectedBelts] = useState([]);
-  const [guessingData, setGuessingData] = useState(getKoreanQuestionAndNorwegianChoices(selectedBelts));
+  const [selectedLanguage, setSelectedLanguage] = useState(LanguageSelectOptions[0]);
+  const [guessingData, setGuessingData] = useState(getQuestionAndAnswers(selectedBelts));
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(undefined);
@@ -79,8 +83,6 @@ const TerminologyQuizPage = () => {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [startTimestamp, setStartTimestamp] = useState(Date.now);
   const [elapsedTime, setElapsedTime] = useState(0);
-
-  const QuestionCount = 20;
 
   useEffect(() => {
     let timer = null;
@@ -105,35 +107,51 @@ const TerminologyQuizPage = () => {
         width={['auto', '30rem', '46rem']}
         height="100%"
         borderRadius="0.5rem"
-        overflowY="auto"
-      >
+        overflowY="auto">
         <Heading size="lg" marginBottom="1rem">Terminologi-quiz</Heading>
-        <BeltMultiSelect onChange={selected => {
-          setSelectedBelts(selected);
-          setCurrentQuestion(1);
-          setSelectedAnswer(undefined);
-          setAnswers([]);
-          setIsTimerActive(false);
-          setElapsedTime(0);
-          setGuessingData(getKoreanQuestionAndNorwegianChoices(selected));
-        }} />
+
+        <Flex direction='row' alignItems='center'>
+          <Text minWidth='4em'>Grader:</Text>
+          <BeltMultiSelect onChange={selected => {
+            setSelectedBelts(selected);
+            setCurrentQuestion(1);
+            setSelectedAnswer(undefined);
+            setAnswers([]);
+            setIsTimerActive(false);
+            setElapsedTime(0);
+            setGuessingData(getQuestionAndAnswers(selected));
+          }} />
+        </Flex>
+
+        <Flex direction='row' alignItems='center'>
+          <Text minWidth='4rem'>Språk:</Text>
+          <LanguageSelect
+            onChange={selected => {
+              setSelectedLanguage(selected);
+              setGuessingData(getQuestionAndAnswers(selectedBelts));
+            }}
+            defaultValue={selectedLanguage} />
+        </Flex>
+
         <Box fontSize="lg" marginTop="1rem" marginBottom="1rem">
           Spørsmål {currentQuestion}/{QuestionCount}:
-          Hva betyr "{ guessingData.question.terminology }" på norsk?
+          Hva betyr "{ selectedLanguage.value === 'norwegianToKorean'
+            ? guessingData.question.terminology.norwegian + '" på koreansk?'
+            : guessingData.question.terminology.korean + '" på norsk?'}
         </Box>
         <SimpleGrid columns={2} spacing="1rem">
-          { guessingData.choices.map(choice =>
+          { guessingData.answers.map(answer =>
             <Button
-              key={choice.index}
-              value={choice.index}
-              colorScheme={ selectedAnswer !== choice.index ? 'gray' :
+              key={answer.index}
+              value={answer.index}
+              colorScheme={ selectedAnswer !== answer.index ? 'gray' :
                 selectedAnswer === guessingData.question.index ? 'green' : 'red' }
               onClick={() => {
                 if (selectedAnswer === undefined) {
-                  setSelectedAnswer(choice.index);
+                  setSelectedAnswer(answer.index);
                   setAnswers([
                     ...answers,
-                    choice.index === guessingData.question.index
+                    answer.index === guessingData.question.index
                   ]);
                   if (!isTimerActive) {
                     setIsTimerActive(true);
@@ -146,10 +164,12 @@ const TerminologyQuizPage = () => {
               }}
             >
               <Grid height='100%' width='100%' alignItems='center'>
-                {choice.terminology}
+                { selectedLanguage.value === 'norwegianToKorean'
+                  ? answer.terminology.korean
+                  : answer.terminology.norwegian }
                 { selectedAnswer !== undefined &&
-                  selectedAnswer !== choice.index &&
-                  choice.index === guessingData.question.index &&
+                  selectedAnswer !== answer.index &&
+                  answer.index === guessingData.question.index &&
                   <Icon color='green' as={MdCheckCircle} boxSize='1.8rem' style={{
                     position: 'absolute',
                     right: '0',
@@ -192,7 +212,7 @@ const TerminologyQuizPage = () => {
                 setAnswers([]);
                 setIsTimerActive(false);
                 setElapsedTime(0);
-                setGuessingData(getKoreanQuestionAndNorwegianChoices(selectedBelts));
+                setGuessingData(getQuestionAndAnswers(selectedBelts));
               }}
             />
 
@@ -206,7 +226,7 @@ const TerminologyQuizPage = () => {
               fontSize="4rem"
               isDisabled={selectedAnswer === undefined || currentQuestion === QuestionCount ? true : false}
               onClick={() => {
-                setGuessingData(getKoreanQuestionAndNorwegianChoices(selectedBelts));
+                setGuessingData(getQuestionAndAnswers(selectedBelts));
                 const nextQuestion = currentQuestion + 1;
                 setCurrentQuestion(nextQuestion);
                 setSelectedAnswer(undefined);

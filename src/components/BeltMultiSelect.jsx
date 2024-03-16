@@ -1,17 +1,20 @@
 
 import { Select } from "chakra-react-select";
 import { BeltSelectOptions } from './Constants';
+import { Box } from "@chakra-ui/react";
 
 const BeltMultiSelect = props => {
   const { onChange } = props;
   return (
-    <Select
-      colorScheme="blackAlpha"
-      isMulti
-      closeMenuOnSelect={false}
-      onChange={onChange}
-      options={BeltSelectOptions}
-      placeholder="Velg en beltegrad..." />
+    <Box width='100%'>
+      <Select
+        colorScheme="blackAlpha"
+        isMulti
+        closeMenuOnSelect={false}
+        onChange={onChange}
+        options={BeltSelectOptions}
+        placeholder="Velg en beltegrad..." />
+    </Box>
   );
 };
 

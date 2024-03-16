@@ -16,3 +16,14 @@ export const BeltSelectOptions = [
     value: "7-gup",
   },
 ];
+
+export const LanguageSelectOptions = [
+  {
+    label: "Koreansk til norsk",
+    value: "koreanToNorwegian",
+  },
+  {
+    label: "Norsk til koreansk",
+    value: "norwegianToKorean",
+  },
+];
