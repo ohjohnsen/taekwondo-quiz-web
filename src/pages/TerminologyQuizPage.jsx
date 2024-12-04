@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading, Flex, Text } from "@chakra-ui/react";
-import { MdCheckCircle } from "react-icons/md";
-import { VscDebugRestart, VscArrowRight } from "react-icons/vsc";
-import { Page, BeltMultiSelect, LanguageSelect } from "../components";
-import { terminologies } from "../assets/terminologies";
-import { differenceInMilliseconds, format } from "date-fns";
-import { LanguageSelectOptions } from "../components/Constants";
+import React, { useState, useEffect } from 'react';
+import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading, Flex, Text } from '@chakra-ui/react';
+import { MdCheckCircle } from 'react-icons/md';
+import { VscDebugRestart, VscArrowRight } from 'react-icons/vsc';
+import { Page, BeltMultiSelect, LanguageSelect } from '../components';
+import { terminologies } from '../assets/terminologies';
+import { differenceInMilliseconds, format } from 'date-fns';
+import { LanguageSelectOptions } from '../components/constants';
 
 const QuestionCount = 20;
 const AnswerCount = 4;
@@ -100,15 +100,15 @@ const TerminologyQuizPage = () => {
   return (
     <Page>
       <Box
-        marginTop="2rem"
-        marginBottom="2rem"
-        background="gray.200"
-        padding="1rem"
+        marginTop='2rem'
+        marginBottom='2rem'
+        background='gray.200'
+        padding='1rem'
         width={['auto', '30rem', '46rem']}
-        height="100%"
-        borderRadius="0.5rem"
-        overflowY="auto">
-        <Heading size="lg" marginBottom="1rem">Terminologi-quiz</Heading>
+        height='100%'
+        borderRadius='0.5rem'
+        overflowY='auto'>
+        <Heading size='lg' marginBottom='1rem'>Terminologi-quiz</Heading>
 
         <Flex direction='row' alignItems='center'>
           <Text minWidth='4em'>Grader:</Text>
@@ -133,13 +133,13 @@ const TerminologyQuizPage = () => {
             defaultValue={selectedLanguage} />
         </Flex>
 
-        <Box fontSize="lg" marginTop="1rem" marginBottom="1rem">
+        <Box fontSize='lg' marginTop='1rem' marginBottom='1rem'>
           Spørsmål {currentQuestion}/{QuestionCount}:
           Hva betyr "{ selectedLanguage.value === 'norwegianToKorean'
             ? guessingData.question.terminology.norwegian + '" på koreansk?'
             : guessingData.question.terminology.korean + '" på norsk?'}
         </Box>
-        <SimpleGrid columns={2} spacing="1rem">
+        <SimpleGrid columns={2} spacing='1rem'>
           { guessingData.answers.map(answer =>
             <Button
               key={answer.index}
@@ -180,32 +180,32 @@ const TerminologyQuizPage = () => {
             </Button>) }
         </SimpleGrid>
 
-        <SimpleGrid columns={2} width="100%" spacingX="1rem" fontSize="xl" marginTop="2rem">
-          <Box textAlign="right">Tid:</Box>
-          <Box>{format(elapsedTime, "m:ss,S")}</Box>
+        <SimpleGrid columns={2} width='100%' spacingX='1rem' fontSize='xl' marginTop='2rem'>
+          <Box textAlign='right'>Tid:</Box>
+          <Box>{format(elapsedTime, 'm:ss,S')}</Box>
 
-          <Box textAlign="right">Antall rette:</Box>
+          <Box textAlign='right'>Antall rette:</Box>
           <Box>
             {getCorrectAnswerCount(answers)}/{answers.length}
             {' '}
             (
               {(selectedAnswer !== undefined || currentQuestion > 1) ?
                 getCorrectAnswerPercentage(answers) :
-                "0"}
+                '0'}
             %)
           </Box>
         </SimpleGrid>
 
         { (selectedAnswer !== undefined || currentQuestion > 1) &&
-          <Box width="100%" textAlign="center">
+          <Box width='100%' textAlign='center'>
             {/* Restart quiz button */}
             <IconButton
               icon={<VscDebugRestart />}
               isRound={true}
-              marginRight="1rem"
-              width="5rem"
-              height="5rem"
-              fontSize="3rem"
+              marginRight='1rem'
+              width='5rem'
+              height='5rem'
+              fontSize='3rem'
               onClick={() => {
                 setCurrentQuestion(1);
                 setSelectedAnswer(undefined);
@@ -221,9 +221,9 @@ const TerminologyQuizPage = () => {
               visibility={selectedAnswer === undefined}
               icon={<VscArrowRight />}
               isRound={true}
-              width="5rem"
-              height="5rem"
-              fontSize="4rem"
+              width='5rem'
+              height='5rem'
+              fontSize='4rem'
               isDisabled={selectedAnswer === undefined || currentQuestion === QuestionCount ? true : false}
               onClick={() => {
                 setGuessingData(getQuestionAndAnswers(selectedBelts));

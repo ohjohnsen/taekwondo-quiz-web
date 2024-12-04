@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Page, BeltMultiSelect, TerminologyTable } from "../components";
-import { BeltSelectOptions } from "../components/Constants";
-import { Box, Heading } from "@chakra-ui/react";
-import { terminologies } from "../assets/terminologies";
+import React, { useState } from 'react';
+import { Page, BeltMultiSelect, TerminologyTable } from '../components';
+import { BeltSelectOptions } from '../components/constants';
+import { Box, Heading } from '@chakra-ui/react';
+import { terminologies } from '../assets/terminologies';
 
 const TerminologyPage = () => {
   const [selectedBelts, setSelectedBelts] = useState([]);
@@ -10,14 +10,14 @@ const TerminologyPage = () => {
   return (
     <Page>
       <Box
-        marginTop="2rem"
-        marginBottom="2rem"
-        background="gray.200"
-        padding="1rem"
+        marginTop='2rem'
+        marginBottom='2rem'
+        background='gray.200'
+        padding='1rem'
         width={['auto', '30rem', '46rem']}
-        height="100%"
-        borderRadius="0.5rem"
-        overflowY="auto">
+        height='100%'
+        borderRadius='0.5rem'
+        overflowY='auto'>
         <BeltMultiSelect
           onChange={selected => { setSelectedBelts(selected); }} />
 
@@ -27,7 +27,7 @@ const TerminologyPage = () => {
             if (selectedBelts.some(selectedBelt => selectedBelt.value === belt.value) || selectedBelts.length === 0) {
               return (
                 <div key={belt.value}>
-                  <Heading size="md" marginTop="2rem">{belt.label}</Heading>
+                  <Heading size='md' marginTop='2rem'>{belt.label}</Heading>
                   <TerminologyTable terminologies={
                     terminologies.filter(terminology => terminology.belt === belt.value)
                   } />

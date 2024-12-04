@@ -319,4 +319,69 @@ export const terminologies = [
     korean: "Sun",
     belt: "7-gup"
   },
+  {
+    norwegian: "Tett stilling",
+    korean: "Moa sogi",
+    belt: "6-gup"
+  },
+  {
+    norwegian: "Bøyd stilling",
+    korean: "Guburyo sogi",
+    belt: "6-gup"
+  },
+  {
+    norwegian: "Fiksert stilling",
+    korean: "Gojung sogi",
+    belt: "6-gup"
+  },
+  {
+    norwegian: "Innover",
+    korean: "Anuro",
+    belt: "6-gup"
+  },
+  {
+    norwegian: "Nedover",
+    korean: "Naeryo",
+    belt: "6-gup"
+  },
+  {
+    norwegian: "Sirkelblokk",
+    korean: "Dollyomyo makgi",
+    belt: "6-gup"
+  },
+  {
+    norwegian: "Bakspark",
+    korean: "Dwit cha jirugi",
+    belt: "6-gup"
+  },
+  {
+    norwegian: "Bakhæl",
+    korean: "Dwichook",
+    belt: "6-gup"
+  },
+  {
+    norwegian: "Front albue",
+    korean: "Ap palkup",
+    belt: "5-gup"
+  },
+  {
+    norwegian: "Dobbel underarmsblokk",
+    korean: "Doo palmok makgi",
+    belt: "5-gup"
+  },
+  {
+    norwegian: "X-stilling",
+    korean: "Kyocha sogi",
+    belt: "5-gup"
+  },
+  {
+    norwegian: "Håndflate",
+    korean: "Sonbadak",
+    belt: "5-gup"
+  },
+  {
+    norwegian: "To-steg sparring",
+    korean: "Ibo matsogi",
+    belt: "5-gup"
+  },
 ];

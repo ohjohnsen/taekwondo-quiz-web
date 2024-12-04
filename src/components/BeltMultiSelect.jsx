@@ -1,7 +1,7 @@
 
-import { Select } from "chakra-react-select";
-import { BeltSelectOptions } from './Constants';
-import { Box } from "@chakra-ui/react";
+import { Select } from 'chakra-react-select';
+import { BeltSelectOptions } from './constants';
+import { Box } from '@chakra-ui/react';
 
 const BeltMultiSelect = props => {
   const { onChange } = props;
