@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import {
   BrowserRouter,
   Routes,
@@ -9,7 +9,7 @@ import { MainPage, TerminologyPage, TerminologyQuizPage} from "./pages";
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider value={defaultSystem}>
       <BrowserRouter>
         <Routes>
           <Route exact path="/terminology" element={<TerminologyPage />} />

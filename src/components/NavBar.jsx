@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Button, Flex, IconButton, Img, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton, Image } from '@chakra-ui/react';
+import { Menu } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { MdHome } from 'react-icons/md';
 import Logo from '../assets/logo.png';
@@ -26,41 +27,53 @@ const NavBar = () => {
       >
         <Link to='/' background="red">
           <Flex direction='row'>
-            <Img src={Logo} height='3rem' marginRight='1rem' />
-            <Img src={Banner} alt='Taekwon-Do Quiz logo' width='25rem' />
+            <Image src={Logo} height='3rem' marginRight='1rem' />
+            <Image
+              src={Banner}
+              alt='Taekwon-Do Quiz logo'
+              width='25rem'
+              height='3rem'
+              objectFit='contain'
+            />
           </Flex>
         </Link>
         <Box flexGrow='1' />
-        <Menu>
-          <IconButton
-            as={Link}
-            to='/'
-            icon={<MdHome />}
-            background='transparent'
-            fontSize='1.5rem'
-            _hover={{ background: '#ffffff60' }}
-          />
-        </Menu>
+        <IconButton
+          as={Link}
+          to='/'
+          background='transparent'
+          fontSize='1.5rem'
+          _hover={{ background: '#ffffff60' }}>
+          <MdHome color='black'/>
+        </IconButton>
 
-        <Menu>
-          <MenuButton
-            as={Button}
-            px={4}
-            borderRadius={5}
-            background='transparent'
-            _hover={{ background: '#ffffff60' }}
-          >
-            Terminologi
-          </MenuButton>
-          <MenuList marginTop='-0.5rem'>
-            <MenuItem as={Link} to='/terminology'>
-              Teori
-            </MenuItem>
-            <MenuItem as={Link} to='/terminologyquiz'>
-              Quiz
-            </MenuItem>
-          </MenuList>
-        </Menu>
+        <Menu.Root>
+          <Menu.Trigger asChild>
+            <Button
+              px={4}
+              borderRadius={5}
+              background='transparent'
+              _hover={{ background: '#ffffff60' }}
+              color='black'
+            >
+              Terminologi
+            </Button>
+          </Menu.Trigger>
+          <Menu.Positioner>
+            <Menu.Content marginTop='-0.5rem'>
+              <Menu.Item asChild _hover={{ background: 'gray.200' }}>
+                <Link to='/terminology'>
+                  Teori
+                </Link>
+              </Menu.Item>
+              <Menu.Item asChild _hover={{ background: 'gray.200' }}>
+                <Link to='/terminologyquiz'>
+                  Quiz
+                </Link>
+              </Menu.Item>
+            </Menu.Content>
+          </Menu.Positioner>
+        </Menu.Root>
         {/* <Menu>
           <MenuButton
             as={Button}

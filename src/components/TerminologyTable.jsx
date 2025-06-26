@@ -1,8 +1,9 @@
 import React from "react";
 
-import { useTable, useSortBy } from "react-table"
-import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react"
-import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons"
+import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender } from "@tanstack/react-table"
+import { chakra } from "@chakra-ui/react"
+import { Table } from '@chakra-ui/react'
+import { IoTriangleSharp } from "react-icons/io5"
 
 const TerminologyTable = props => {
   const { terminologies } = props;
@@ -15,71 +16,71 @@ const TerminologyTable = props => {
   const columns = React.useMemo(
     () => [
       {
-        Header: "Koreansk",
-        accessor: "korean",
+        header: "Koreansk",
+        accessorKey: "korean",
       },
       {
-        Header: "Norsk",
-        accessor: "norwegian",
+        header: "Norsk",
+        accessorKey: "norwegian",
       },
     ],
     [],
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data }, useSortBy)
+  const [sorting, setSorting] = React.useState([]);
 
-  // useEffect(() => {
-  //   const connection = createConnection(serverUrl, roomId);
-  //   connection.connect();
-  //   return () => connection.disconnect();
-  // }, [roomId]);
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
 
   return (
-    <Table {...getTableProps()}>
-      <Thead>
-        {headerGroups.map((headerGroup) => (
-          <Tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <Th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                isNumeric={column.isNumeric}
+    <Table.Root>
+      <Table.Header>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <Table.Row key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <Table.ColumnHeader
+                key={header.id}
+                cursor={header.column.getCanSort() ? "pointer" : "default"}
+                onClick={header.column.getToggleSortingHandler()}
               >
-                {column.render("Header")}
+                {flexRender(header.column.columnDef.header, header.getContext())}
                 <chakra.span pl="4">
-                  {column.isSorted ? (
-                    column.isSortedDesc ? (
-                      <TriangleDownIcon aria-label="sorted descending" />
+                  {header.column.getIsSorted() ? (
+                    header.column.getIsSorted() === "desc" ? (
+                      <IoTriangleSharp
+                        aria-label="sorted descending"
+                        style={{ transform: 'rotate(180deg)' }}
+                      />
                     ) : (
-                      <TriangleUpIcon aria-label="sorted ascending" />
+                      <IoTriangleSharp aria-label="sorted ascending" />
                     )
                   ) : null}
                 </chakra.span>
-              </Th>
+              </Table.ColumnHeader>
             ))}
-          </Tr>
+          </Table.Row>
         ))}
-      </Thead>
-      <Tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row)
-          return (
-            <Tr {...row.getRowProps()}>
-              {row.cells.map((cell) => (
-                <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
-                  {cell.render("Cell")}
-                </Td>
-              ))}
-            </Tr>
-          )
-        })}
-      </Tbody>
-    </Table>
+      </Table.Header>
+      <Table.Body>
+        {table.getRowModel().rows.map(row => (
+          <Table.Row key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <Table.Cell key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </Table.Cell>
+            ))}
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table.Root>
   )
 }
 

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Button, Icon, IconButton, Grid, SimpleGrid, Heading, Flex, Text } from '@chakra-ui/react';
 import { MdCheckCircle } from 'react-icons/md';
-import { VscDebugRestart, VscArrowRight } from 'react-icons/vsc';
+import { FaRotateLeft, FaArrowRight } from "react-icons/fa6";
 import { Page, BeltMultiSelect, LanguageSelect } from '../components';
 import { terminologies } from '../assets/terminologies';
 import { differenceInMilliseconds, format } from 'date-fns';
@@ -139,13 +139,15 @@ const TerminologyQuizPage = () => {
             ? guessingData.question.terminology.norwegian + '" på koreansk?'
             : guessingData.question.terminology.korean + '" på norsk?'}
         </Box>
-        <SimpleGrid columns={2} spacing='1rem'>
+        <SimpleGrid columns={2} gap='1rem'>
           { guessingData.answers.map(answer =>
             <Button
+              color={ selectedAnswer !== answer.index ? 'black' : 'white' }
               key={answer.index}
               value={answer.index}
-              colorScheme={ selectedAnswer !== answer.index ? 'gray' :
+              backgroundColor={ selectedAnswer !== answer.index ? 'gray.100' :
                 selectedAnswer === guessingData.question.index ? 'green' : 'red' }
+              fontSize={'md'}
               onClick={() => {
                 if (selectedAnswer === undefined) {
                   setSelectedAnswer(answer.index);
@@ -180,7 +182,7 @@ const TerminologyQuizPage = () => {
             </Button>) }
         </SimpleGrid>
 
-        <SimpleGrid columns={2} width='100%' spacingX='1rem' fontSize='xl' marginTop='2rem'>
+        <SimpleGrid columns={2} width='100%' gapX='1rem' fontSize='xl' marginTop='2rem'>
           <Box textAlign='right'>Tid:</Box>
           <Box>{format(elapsedTime, 'm:ss,S')}</Box>
 
@@ -200,8 +202,9 @@ const TerminologyQuizPage = () => {
           <Box width='100%' textAlign='center'>
             {/* Restart quiz button */}
             <IconButton
-              icon={<VscDebugRestart />}
-              isRound={true}
+              color='black'
+              backgroundColor='white'
+              rounded='full'
               marginRight='1rem'
               width='5rem'
               height='5rem'
@@ -214,24 +217,28 @@ const TerminologyQuizPage = () => {
                 setElapsedTime(0);
                 setGuessingData(getQuestionAndAnswers(selectedBelts));
               }}
-            />
+            >
+              <Box as={FaRotateLeft} boxSize='3rem' />
+            </IconButton>
 
             {/* Next question button */}
             <IconButton
+              color='black'
+              backgroundColor='white'
               visibility={selectedAnswer === undefined}
-              icon={<VscArrowRight />}
-              isRound={true}
+              rounded='full'
               width='5rem'
               height='5rem'
-              fontSize='4rem'
-              isDisabled={selectedAnswer === undefined || currentQuestion === QuestionCount ? true : false}
+              disabled={selectedAnswer === undefined || currentQuestion === QuestionCount ? true : false}
               onClick={() => {
                 setGuessingData(getQuestionAndAnswers(selectedBelts));
                 const nextQuestion = currentQuestion + 1;
                 setCurrentQuestion(nextQuestion);
                 setSelectedAnswer(undefined);
               }}
-            />
+            >
+              <Box as={FaArrowRight} boxSize='3rem' />
+            </IconButton>
           </Box>
         }
       </Box>
