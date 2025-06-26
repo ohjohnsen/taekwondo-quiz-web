@@ -384,4 +384,119 @@ export const terminologies = [
     korean: "Ibo matsogi",
     belt: "5-gup"
   },
+  {
+    norwegian: "Omvendt knivhånd",
+    korean: "Sonkal dung",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Oppover blokk",
+    korean: "Ollyo makgi",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "X-knyttneve",
+    korean: "Kyocha joomuk",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Tvilling knyttneve",
+    korean: "Sang joomuk",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Halvsirkelhånd",
+    korean: "Bandal son",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Oppover albue",
+    korean: "Wi palkup",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Pressende blokk",
+    korean: "Noollo makgi",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "U-form blokk",
+    korean: "Digutja makgi",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Vertikalt punch",
+    korean: "Sewo jirugi",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Oppadvendt punch",
+    korean: "Dwijibo jirugi",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Vinkel punch",
+    korean: "Kiokja jirugi",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Bakfotstilling",
+    korean: "Dwitbal sogi",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Lav stilling",
+    korean: "Nachou sogi",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Side front",
+    korean: "Yobap",
+    belt: "4-gup"
+  },
+  {
+    norwegian: "Oppadvendt spydhånd",
+    korean: "Dwijibun sonkut",
+    belt: "3-gup"
+  },
+  {
+    norwegian: "Flat spydhånd",
+    korean: "Opun sonkut",
+    belt: "3-gup"
+  },
+  {
+    norwegian: "W-form blokk",
+    korean: "San makgi",
+    belt: "3-gup"
+  },
+  {
+    norwegian: "Skyvende blokk",
+    korean: "Miro makgi",
+    belt: "3-gup"
+  },
+  {
+    norwegian: "Kne",
+    korean: "Moorup",
+    belt: "3-gup"
+  },
+  {
+    norwegian: "Side bak",
+    korean: "Yopdwi",
+    belt: "3-gup"
+  },
+  {
+    norwegian: "Flygende",
+    korean: "Twimyo",
+    belt: "3-gup"
+  },
+  {
+    norwegian: "Hode",
+    korean: "Mori",
+    belt: "3-gup"
+  },
+  {
+    norwegian: "Ta tak i",
+    korean: "Japgi",
+    belt: "3-gup"
+  },
 ];

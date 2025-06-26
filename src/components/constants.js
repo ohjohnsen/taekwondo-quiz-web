@@ -23,6 +23,14 @@ export const BeltSelectOptions = [
     label: "5. Gup",
     value: "5-gup",
   },
+  {
+    label: "4. Gup",
+    value: "4-gup",
+  },
+  {
+    label: "3. Gup",
+    value: "3-gup",
+  },
 ];
 
 export const LanguageSelectOptions = [
